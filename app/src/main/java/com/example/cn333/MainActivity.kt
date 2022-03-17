@@ -13,9 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.cn333.ui.theme.Cn333Theme
 import kotlin.random.Random.Default.nextInt
-import androidx.appcompat.app.AlertDialog as AlertDialog1
 
 class MainActivity : ComponentActivity() {
 
@@ -29,29 +27,35 @@ class MainActivity : ComponentActivity() {
 
 }
 
+var random : Int = nextInt(1,1000)
+var count = 0
 
 @Composable
 fun Interface(){
 
         val textState = remember { mutableStateOf(TextFieldValue()) }
         var textresult = remember { mutableStateOf("Guess your number")}
-        var count = 0
-        var random : Int = nextInt(1,1000)
+        var textscore = remember { mutableStateOf("")}
+
+
+
 
 
         fun checkAns() {
             var ans = if (textState.value.text == null){0} else {textState.value.text.toInt()}
             if (ans > random){
                 count++
+                textscore.value = ""
                 textresult.value = "Lower number than yours"
             }
             else if (ans < random){
                 count++
+                textscore.value = ""
                 textresult.value = "Higher number than yours"
             }
             else{
                 count++
-                alertWinning(count)
+                textscore.value = "You have tried $count times"
                 count = 0
                 textresult.value = "Let's do it again"
                 random = nextInt( 1, 1000)
@@ -61,12 +65,14 @@ fun Interface(){
 
 
 
+
         Column (
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
             ){
+        Text(text = textscore.value)
 
         TextField(value = textState.value,
             onValueChange = { textState.value = it },
@@ -81,19 +87,9 @@ fun Interface(){
                 text = textresult.value,
             )
         }
+
     }
-}
 
-
-@Composable
-fun alertWinning(count : Int){
-    AlertDialog(
-        onDismissRequest = { },
-        confirmButton = {
-            TextButton(onClick = {})
-            { Text(text = "You have tried times") }
-        },
-    )
 }
 
 
