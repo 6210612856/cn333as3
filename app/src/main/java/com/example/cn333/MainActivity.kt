@@ -42,7 +42,7 @@ fun Interface(){
 
 
         fun checkAns() {
-            var ans = if (textState.value.text == null){0} else {textState.value.text.toInt()}
+            var ans = if (textState.value.text.isEmpty()){0} else {textState.value.text.toInt()}
             if (ans > random){
                 count++
                 textscore.value = ""
@@ -53,15 +53,18 @@ fun Interface(){
                 textscore.value = ""
                 textresult.value = "Higher number than yours"
             }
-            else{
+            else if (ans == random){
                 count++
                 textscore.value = "You have tried $count times"
                 count = 0
                 textresult.value = "Let's do it again"
                 random = nextInt( 1, 1000)
 
+            }else{
+                textresult.value = "Enter Your Number!!"
             }
         }
+
 
 
 
